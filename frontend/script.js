@@ -18,9 +18,10 @@ document.addEventListener('click', function(e) {
     }
 });
 
-const API_BASE = window.location.protocol.startsWith('http') 
-    ? (window.location.origin.includes('8000') ? '' : 'http://127.0.0.1:8000')
-    : 'http://127.0.0.1:8000';
+const isLocalHttp = window.location.protocol.startsWith('http')
+    && ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const API_BASE = isLocalHttp ? 'http://127.0.0.1:8000'
+    : (window.location.protocol.startsWith('http') ? '' : 'http://127.0.0.1:8000');
 
 let storeProducts = [];
 let optimizationResults = [];

@@ -142,6 +142,15 @@ uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
 - **Interactive API Documentation (Swagger UI)**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 - **Alternative Offline Access**: Open `frontend/index.html` directly in any web browser.
 
+### 5. Deploy to Render
+This repository includes [`render.yaml`](render.yaml) for Render Blueprint deployment.
+
+1. Create a new **Blueprint** in Render and select this repository.
+2. Render will install `requirements.txt` and start FastAPI with the assigned `$PORT`.
+3. Open the generated Render URL. The frontend uses same-origin API requests in production.
+
+The local `.env` file is ignored by Git. Configure any deployment-specific values in Render's Environment settings rather than committing secrets.
+
 ---
 
 ## 📐 Mathematical Formulation
