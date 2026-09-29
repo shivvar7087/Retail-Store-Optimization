@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Store Health Score - OptiRetail AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .page-header-banner {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .back-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+        }
+        .back-nav:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo" style="text-decoration:none;">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">OptiRetail <span class="badge-ai">AI ENGINE</span></span>
+            </a>
+            <div class="store-badge">
+                <span class="dot-online"></span>
+                <span>Downtown Superstore #104</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="index.html" class="btn btn-secondary">← Back to Main Dashboard</a>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <a href="index.html" class="back-nav">← Back to Overview</a>
+
+        <div class="page-header-banner">
+            <div>
+                <h1 style="color:var(--primary); font-size:1.75rem; font-weight:800; display:flex; align-items:center; gap:0.5rem;">
+                    🛡️ Store Health Score Analysis (50% Optimal Inventory)
+                </h1>
+                <p style="color:#3730a3; margin-top:0.35rem; font-size:0.95rem;">
+                    Evaluation of on-hand inventory levels against customer demand velocity, safety buffer compliance, and stockout vulnerability.
+                </p>
+            </div>
+            <div>
+                <a href="index.html" class="btn btn-primary">Run Auto-Rebalance</a>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">Optimal Stock SKUs</div>
+                <div class="kpi-value text-green">5 / 10</div>
+                <div class="kpi-subtext">50% of catalog is healthy</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Critical Stockouts</div>
+                <div class="kpi-value text-red">3</div>
+                <div class="kpi-subtext">30% immediate risk</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Reorders Needed</div>
+                <div class="kpi-value text-amber">1</div>
+                <div class="kpi-subtext">Crossed threshold</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Overstocked SKUs</div>
+                <div class="kpi-value" style="color:var(--purple);">1</div>
+                <div class="kpi-subtext">Excess capital tied up</div>
+            </div>
+        </div>
+
+        <div class="calc-card" style="margin-top:1.5rem;">
+            <h3>Strategic Optimization Roadmap</h3>
+            <ul style="margin:1rem 0; padding-left:1.5rem; display:flex; flex-direction:column; gap:0.5rem; font-size:0.95rem; color:var(--text-secondary);">
+                <li><strong>Expedite Purchase Orders:</strong> Issue POs for Almond Milk, Sourdough Loaf, and Wireless Mouse to avoid $4,187 in lost sales.</li>
+                <li><strong>Unlock Idle Working Capital:</strong> Apply a 15% markdown or promotional bundle to Eco Bamboo Towels (holding 210 units, 10+ weeks supply).</li>
+                <li><strong>Maintain Steady Buffer:</strong> Honeycrisp Apples and EV Olive Oil are in optimal turnover equilibrium with 95% service level protection.</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>OptiRetail AI &bull; Retail Store Optimization &bull; Inventory Health Analytics</p>
+    </footer>
+</body>
+</html>

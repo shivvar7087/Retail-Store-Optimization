@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OptiRetail AI - Retail Store Optimization & Demand Forecasting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-left">
+            <div class="brand-logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">OptiRetail <span class="badge-ai">AI ENGINE</span></span>
+            </div>
+            <div class="store-badge">
+                <span class="dot-online"></span>
+                <span>Downtown Superstore #104</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="nav-subpage-buttons">
+                <a href="health.html" class="nav-subpage-btn"><span class="btn-icon">🛡️</span> Health</a>
+                <a href="critical.html" class="nav-subpage-btn"><span class="btn-icon">🚨</span> Critical</a>
+                <a href="reorders.html" class="nav-subpage-btn"><span class="btn-icon">📦</span> Reorders</a>
+                <a href="budget.html" class="nav-subpage-btn"><span class="btn-icon">💵</span> Budget</a>
+                <a href="revenue.html" class="nav-subpage-btn"><span class="btn-icon">📈</span> Revenue</a>
+            </div>
+            <div class="api-status" id="api-status">
+                <span class="status-indicator"></span>
+                <span id="api-status-text">Connecting to ML Backend...</span>
+            </div>
+            <button class="btn btn-primary" id="btn-batch-optimize">
+                <span class="btn-icon">⚡</span> Run Store Optimization
+            </button>
+        </div>
+    </header>
+
+
+        <!-- Hero Executive KPI Bar (Clickable Anchor Cards linking to Subpages) -->
+        <section class="kpi-grid">
+            <a href="health.html" onclick="window.location.href='health.html'; return true;" class="kpi-card card-health" data-kpi="health" title="Click to open Health Report">
+                <div class="kpi-header">
+                    <span class="kpi-title">Store Health Score</span>
+                    <span class="kpi-icon">🛡️</span>
+                </div>
+                <div class="kpi-value" id="kpi-health-score">--%</div>
+                <div class="kpi-subtext" id="kpi-health-sub">Optimal stock ratio</div>
+                <div class="kpi-action-hint">Open Health Report ➔</div>
+            </a>
+
+            <a href="critical.html" onclick="window.location.href='critical.html'; return true;" class="kpi-card card-critical" data-kpi="critical" title="Click to view Critical Stockouts">
+                <div class="kpi-header">
+                    <span class="kpi-title">Critical Stockouts</span>
+                    <span class="kpi-icon">🚨</span>
+                </div>
+                <div class="kpi-value text-red" id="kpi-critical-count">0</div>
+                <div class="kpi-subtext">Immediate PO required</div>
+                <div class="kpi-action-hint text-red">Open Stockouts Page ➔</div>
+            </a>
+
+            <a href="reorders.html" onclick="window.location.href='reorders.html'; return true;" class="kpi-card card-warning" data-kpi="reorder" title="Click to view Reorders Needed">
+                <div class="kpi-header">
+                    <span class="kpi-title">Reorders Needed</span>
+                    <span class="kpi-icon">📦</span>
+                </div>
+                <div class="kpi-value text-amber" id="kpi-reorder-count">0</div>
+                <div class="kpi-subtext">Stock crossed ROP</div>
+                <div class="kpi-action-hint text-amber">Open Reorders Page ➔</div>
+            </a>
+
+            <a href="budget.html" onclick="window.location.href='budget.html'; return true;" class="kpi-card card-capital" data-kpi="budget" title="Click to view Replenishment Budget breakdown">
+                <div class="kpi-header">
+                    <span class="kpi-title">Replenishment Budget</span>
+                    <span class="kpi-icon">💵</span>
+                </div>
+                <div class="kpi-value" id="kpi-replenish-cost">$0</div>
+                <div class="kpi-subtext">Estimated PO Capital</div>
+                <div class="kpi-action-hint">Open Budget Details ➔</div>
+            </a>
+
+            <a href="revenue.html" onclick="window.location.href='revenue.html'; return true;" class="kpi-card card-revenue" data-kpi="revenue" title="Click to view Revenue Protection breakdown">
+                <div class="kpi-header">
+                    <span class="kpi-title">Revenue Protected</span>
+                    <span class="kpi-icon">📈</span>
+                </div>
+                <div class="kpi-value text-green" id="kpi-revenue-protected">$0</div>
+                <div class="kpi-subtext">Prevented stockout loss</div>
+                <div class="kpi-action-hint text-green">Open Revenue Analysis ➔</div>
+            </a>
+        </section>
+
+        <!-- Navigation Tabs -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="catalog-tab">
+                📋 Store Inventory & Recommendations
+            </button>
+            <button class="tab-btn" data-tab="calculator-tab">
+                🧮 Interactive ML Demand & Reorder Calculator
+            </button>
+            <button class="tab-btn" data-tab="pricing-tab">
+                🏷️ Price Elasticity & Revenue Optimizer
+            </button>
+            <button class="tab-btn" data-tab="crosssell-tab">
+                🛍️ Market Basket & Bundling
+            </button>
+        </div>
+
+        <!-- TAB 1: Store Inventory Catalog & Recommendations -->
+        <section id="catalog-tab" class="tab-content active">
+            <div class="panel-header">
+                <div>
+                    <h2>Live Store Inventory & AI Reorder Recommendations</h2>
+                    <p class="section-desc">Machine Learning forecasts demand using velocity, pricing, promotions, and supplier lead times.</p>
+                </div>
+                <div class="table-controls">
+                    <input type="text" id="catalog-search" placeholder="🔍 Search product name or SKU..." />
+                    <select id="filter-category">
+                        <option value="ALL">All Categories</option>
+                        <option value="Groceries">Groceries</option>
+                        <option value="Bakery">Bakery</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Pantry">Pantry</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Household">Household</option>
+                        <option value="Personal Care">Personal Care</option>
+                        <option value="Produce">Produce</option>
+                        <option value="Health & Nutrition">Health & Nutrition</option>
+                    </select>
+                    <select id="filter-status">
+                        <option value="ALL">All Inventory Statuses</option>
+                        <option value="CRITICAL_STOCKOUT">Critical Stockout</option>
+                        <option value="REORDER_NEEDED">Reorder Needed</option>
+                        <option value="OPTIMAL">Optimal</option>
+                        <option value="OVERSTOCKED">Overstocked</option>
+                    </select>
+                    <select id="sort-field" title="Select Column to Sort">
+                        <option value="current_stock">Sort by: Current Stock</option>
+                        <option value="name">Sort by: Product Name</option>
+                        <option value="category">Sort by: Category</option>
+                        <option value="price">Sort by: Shelf Price</option>
+                        <option value="predicted_weekly_demand">Sort by: ML Demand</option>
+                        <option value="reorder_point">Sort by: Reorder Point</option>
+                        <option value="recommended_reorder">Sort by: Recommended PO</option>
+                        <option value="stockout_probability_pct">Sort by: Stockout Risk</option>
+                    </select>
+                    <button type="button" class="btn btn-secondary btn-sort-order" id="btn-sort-order" title="Toggle Increasing (Low to High / A to Z) or Decreasing (High to Low / Z to A)">
+                        <span id="sort-order-icon">▲</span> <span id="sort-order-text">Increasing Order</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="catalog-table-wrapper">
+                <table class="data-table" id="catalog-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable-th" data-sort="name" title="Click to sort by Product Name">
+                                SKU / Product <span class="sort-indicator" id="sort-icon-name">↕</span>
+                            </th>
+                            <th class="sortable-th" data-sort="category" title="Click to sort by Category">
+                                Category <span class="sort-indicator" id="sort-icon-category">↕</span>
+                            </th>
+                            <th class="sortable-th" data-sort="current_stock" title="Click to sort by Current Stock">
+                                Current Stock <span class="sort-indicator" id="sort-icon-current_stock">▲</span>
+                            </th>
+                            <th class="sortable-th" data-sort="price" title="Click to sort by Shelf Price">
+                                Shelf Price <span class="sort-indicator" id="sort-icon-price">↕</span>
+                            </th>
+                            <th class="sortable-th" data-sort="predicted_weekly_demand" title="Click to sort by ML Weekly Demand">
+                                ML Weekly Demand <span class="sort-indicator" id="sort-icon-predicted_weekly_demand">↕</span>
+                            </th>
+                            <th class="sortable-th" data-sort="reorder_point" title="Click to sort by Reorder Point (ROP)">
+                                Reorder Point (ROP) <span class="sort-indicator" id="sort-icon-reorder_point">↕</span>
+                            </th>
+                            <th class="sortable-th" data-sort="recommended_reorder" title="Click to sort by Recommended PO">
+                                Recommended PO <span class="sort-indicator" id="sort-icon-recommended_reorder">↕</span>
+                            </th>
+                            <th class="sortable-th" data-sort="stockout_probability_pct" title="Click to sort by Stockout Risk">
+                                Stockout Risk <span class="sort-indicator" id="sort-icon-stockout_probability_pct">↕</span>
+                            </th>
+                            <th class="sortable-th" data-sort="status" title="Click to sort by Inventory Status">
+                                Inventory Status <span class="sort-indicator" id="sort-icon-status">↕</span>
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="catalog-tbody">
+                        <tr>
+                            <td colspan="10" class="loading-cell">Loading live store inventory...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Inventory vs ML Forecasted Demand</h3>
+                        <span class="chart-caption">Current on-hand vs Weekly Forecast vs Reorder Point</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="inventoryDemandChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card chart-card-sm">
+                    <div class="chart-header">
+                        <h3>Inventory Health Distribution</h3>
+                        <span class="chart-caption">Stock Status across Store SKUs</span>
+                    </div>
+                    <div class="chart-body donut-chart-container">
+                        <canvas id="healthDonutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Custom Interactive ML Calculator -->
+        <section id="calculator-tab" class="tab-content">
+            <div class="calculator-grid">
+                <div class="calc-card">
+                    <h2>ML Demand & Replenishment Simulator</h2>
+                    <p class="section-desc">Test custom retail scenarios or evaluate a new incoming SKU.</p>
+                    
+                    <form id="calculator-form" class="calc-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="calc-product-name">Product Name</label>
+                                <input type="text" id="calc-product-name" value="Artisan Whole Grain Bread" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-category">Category</label>
+                                <input type="text" id="calc-category" value="Bakery" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="calc-current-stock">Current Stock (units)</label>
+                                <input type="number" id="calc-current-stock" min="0" value="18" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-last-week-sales">Last 7 Days Sales (units)</label>
+                                <input type="number" id="calc-last-week-sales" min="0" value="85" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="calc-price">Selling Price ($)</label>
+                                <input type="number" step="0.01" id="calc-price" min="0.1" value="4.99" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-cost">Unit Cost ($)</label>
+                                <input type="number" step="0.01" id="calc-cost" min="0.1" value="2.10" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="calc-discount">Active Promotion / Discount (%)</label>
+                                <input type="number" id="calc-discount" min="0" max="90" value="5" />
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-lead-time">Supplier Lead Time (Days)</label>
+                                <input type="number" id="calc-lead-time" min="1" max="60" value="3" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="calc-comp-price">Competitor Price ($)</label>
+                                <input type="number" step="0.01" id="calc-comp-price" value="5.29" />
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-footfall">Store Footfall Multiplier</label>
+                                <select id="calc-footfall">
+                                    <option value="0.85">Low Footfall (0.85x)</option>
+                                    <option value="1.0" selected>Normal Traffic (1.0x)</option>
+                                    <option value="1.2">Weekend / High Traffic (1.2x)</option>
+                                    <option value="1.4">Holiday Surge (1.4x)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-lg" id="btn-run-calc">
+                                🔮 Compute ML Demand & Optimal Reorder
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-calc-sample">
+                                Load Sample SKU
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="calc-card result-panel" id="calc-result-panel">
+                    <div class="result-header">
+                        <h2>Optimization Analysis</h2>
+                        <span class="status-badge" id="calc-badge">Ready for Calculation</span>
+                    </div>
+
+                    <div class="metrics-summary-grid">
+                        <div class="metric-box">
+                            <span class="metric-label">Predicted Weekly Demand</span>
+                            <span class="metric-num text-blue" id="res-weekly-demand">--</span>
+                            <span class="metric-detail" id="res-daily-demand">-- units / day</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Recommended Reorder PO</span>
+                            <span class="metric-num text-amber" id="res-reorder-qty">--</span>
+                            <span class="metric-detail" id="res-reorder-cost">Est. Cost: $--</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Reorder Point (ROP)</span>
+                            <span class="metric-num" id="res-rop">--</span>
+                            <span class="metric-detail" id="res-safety-stock">Safety Buffer: -- units</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Stockout Probability</span>
+                            <span class="metric-num text-red" id="res-stockout-risk">--%</span>
+                            <span class="metric-detail" id="res-days-supply">Supply: -- days</span>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-box" id="res-action-box">
+                        <h3>Strategic Action Notes</h3>
+                        <p id="res-action-text">Run the calculation on the left to generate an actionable inventory replenishment plan.</p>
+                        <div class="pricing-tip" id="res-pricing-tip">
+                            <strong>Pricing Intelligence:</strong> <span id="res-pricing-text">--</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-explainer">
+                        <h4>📐 How the ML & Inventory Engine Computes This</h4>
+                        <ul>
+                            <li><strong>Demand Forecast:</strong> Multi-variable Random Forest regressor with price elasticity & store footfall.</li>
+                            <li><strong>Safety Stock ($SS$):</strong> $Z \times \sqrt{L} \times \sigma_D$ protecting against demand spikes at 95% service level.</li>
+                            <li><strong>Reorder Point ($ROP$):</strong> Lead Time Demand + Safety Stock.</li>
+                            <li><strong>Optimal Order ($ROQ$):</strong> Target Inventory minus current on-hand stock.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Price Elasticity Simulator -->
+        <section id="pricing-tab" class="tab-content">
+            <div class="pricing-container">
+                <div class="pricing-sidebar">
+                    <h2>Dynamic Price Elasticity Simulator</h2>
+                    <p class="section-desc">Estimate revenue & gross profit at different pricing points to discover the profit-maximizing sweet spot.</p>
+
+                    <div class="form-group">
+                        <label for="price-select-product">Select SKU from Catalog:</label>
+                        <select id="price-select-product"></select>
+                    </div>
+
+                    <div class="price-input-cluster">
+                        <div class="form-group">
+                            <label for="sim-base-price">Current Price ($)</label>
+                            <input type="number" step="0.01" id="sim-base-price" value="14.99" />
+                        </div>
+                        <div class="form-group">
+                            <label for="sim-cost">Unit Cost ($)</label>
+                            <input type="number" step="0.01" id="sim-cost" value="7.80" />
+                        </div>
+                        <div class="form-group">
+                            <label for="sim-base-demand">Baseline Weekly Demand</label>
+                            <input type="number" id="sim-base-demand" value="60" />
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" id="btn-run-price-sim">
+                        Simulate Price Curve
+                    </button>
+
+                    <div class="opt-price-result" id="opt-price-result-box">
+                        <div class="opt-label">Optimal Recommended Price:</div>
+                        <div class="opt-price" id="opt-price-val">$0.00</div>
+                        <div class="opt-sub" id="opt-profit-gain">Estimated Max Profit: $0</div>
+                    </div>
+                </div>
+
+                <div class="pricing-chart-area">
+                    <div class="chart-header">
+                        <h3>Simulated Revenue & Gross Profit vs Price</h3>
+                        <span class="chart-caption">Interactive curve identifying profit inflection point</span>
+                    </div>
+                    <div class="chart-body" style="height: 380px;">
+                        <canvas id="priceElasticityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: Market Basket & Bundling -->
+        <section id="crosssell-tab" class="tab-content">
+            <div class="panel-header">
+                <div>
+                    <h2>Market Basket Association & Synergy Bundles</h2>
+                    <p class="section-desc">Algorithm-identified co-purchase affinities. Place these products adjacently or launch bundle promotions.</p>
+                </div>
+            </div>
+
+            <div class="bundles-grid" id="bundles-container"></div>
+        </section>
+    </main>
+
+    <!-- Generic Interactive Detail Modal (For Products, KPI Breakdown, and Store Optimization Report) -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Optimization Details</h3>
+                <button class="modal-close" id="modal-close" title="Close (Esc)">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Dynamically injected content -->
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <button class="btn btn-secondary" id="btn-modal-dismiss">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Retail Store Optimization Platform &bull; FastAPI + Scikit-Learn ML Backend &bull; HTML5 / CSS3 / Vanilla JS</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

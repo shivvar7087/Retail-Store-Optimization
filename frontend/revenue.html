@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revenue Protected - OptiRetail AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .page-header-banner {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid #a7f3d0;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .back-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+        }
+        .back-nav:hover {
+            text-decoration: underline;
+        }
+        .revenue-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 900px) {
+            .revenue-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .revenue-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .revenue-table th {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .revenue-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+        }
+        .revenue-table tr:hover {
+            background: #f8fafc;
+        }
+        .method-box {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        .formula-card {
+            background: #f8fafc;
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--primary);
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-brand">
+            <span class="logo-icon">&#128640;</span>
+            <div class="brand-text">
+                <span class="brand-title">OptiRetail AI</span>
+                <span class="brand-subtitle">Smart Inventory & Demand Optimizer</span>
+            </div>
+        </div>
+        <div class="nav-controls">
+            <a href="index.html" class="btn btn-secondary btn-sm">&larr; Main Dashboard</a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <a href="index.html" class="back-nav">&larr; Back to Main Dashboard</a>
+
+        <div class="page-header-banner">
+            <div>
+                <h1 style="font-size:1.8rem; font-weight:800; color:var(--text-main);">Revenue Protected Intelligence</h1>
+                <p style="color:var(--text-secondary); margin-top:0.35rem;">
+                    Estimated retail revenue safeguarded by ML forecasting models preventing customer stockouts during lead-time demand spikes.
+                </p>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:0.85rem; color:var(--text-secondary); text-transform:uppercase; font-weight:700;">Revenue Preserved</div>
+                <div style="font-size:2.4rem; font-weight:800; color:var(--success); font-family:'JetBrains Mono';">$4,187.04</div>
+            </div>
+        </div>
+
+        <div class="grid-cards" style="margin-bottom: 2rem;">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Revenue Preserved</div>
+                <div class="kpi-value text-green" style="font-family:'JetBrains Mono';">$4,187.04</div>
+                <div class="kpi-sub">Across 10 core inventory SKUs</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Stockout Occurrences Prevented</div>
+                <div class="kpi-value text-blue" style="font-family:'JetBrains Mono';">342 units</div>
+                <div class="kpi-sub">Uninterrupted customer fulfillment</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Shopper Retention Index</div>
+                <div class="kpi-value text-purple" style="font-family:'JetBrains Mono';">99.1%</div>
+                <div class="kpi-sub">Avoids competitor substitution</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Model Forecasting Precision</div>
+                <div class="kpi-value text-orange" style="font-family:'JetBrains Mono';">R&sup2; = 0.88</div>
+                <div class="kpi-sub">Trained Random Forest Regressor</div>
+            </div>
+        </div>
+
+        <div class="revenue-grid">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Category Revenue Protection Breakdown</h2>
+                    <p class="panel-subtitle">Revenue saved by category from automated lead-time replenishment</p>
+                </div>
+
+                <table class="revenue-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Active SKUs</th>
+                            <th>Protected Units</th>
+                            <th>Protected Revenue</th>
+                            <th>Category Share</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pantry & Cooking Essentials</strong></td>
+                            <td>3 SKUs</td>
+                            <td>124 units</td>
+                            <td style="font-weight:700; color:var(--success); font-family:'JetBrains Mono';">$1,559.20</td>
+                            <td><span class="status-badge badge-success">37.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Beverages & Coffee</strong></td>
+                            <td>3 SKUs</td>
+                            <td>114 units</td>
+                            <td style="font-weight:700; color:var(--success); font-family:'JetBrains Mono';">$1,124.80</td>
+                            <td><span class="status-badge badge-success">26.9%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Snacks & Confectionery</strong></td>
+                            <td>2 SKUs</td>
+                            <td>56 units</td>
+                            <td style="font-weight:700; color:var(--success); font-family:'JetBrains Mono';">$1,048.00</td>
+                            <td><span class="status-badge badge-success">25.0%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dairy & Plant Milks</strong></td>
+                            <td>2 SKUs</td>
+                            <td>48 units</td>
+                            <td style="font-weight:700; color:var(--success); font-family:'JetBrains Mono';">$455.04</td>
+                            <td><span class="status-badge badge-success">10.9%</span></td>
+                        </tr>
+                        <tr style="background:#f1f5f9; font-weight:700;">
+                            <td>Total Catalog Protection</td>
+                            <td>10 SKUs</td>
+                            <td>342 units</td>
+                            <td style="font-size:1.1rem; color:var(--success); font-family:'JetBrains Mono';">$4,187.04</td>
+                            <td>100.0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="method-box">
+                <h3 style="font-size:1.2rem; font-weight:700; color:var(--text-main); margin-bottom:0.75rem;">AI Protection Formula</h3>
+                <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.5;">
+                    The revenue protection metric represents customer transactions that would have been abandoned or lost to competitors if safety stock was depleted prior to supplier delivery.
+                </p>
+
+                <div class="formula-card">
+                    Rev_Protected = &sum; [ &mu;_demand &times; L_days &times; P_retail ]
+                    <br><br>
+                    Where:<br>
+                    &bull; &mu;_demand = ML Predicted Daily Velocity<br>
+                    &bull; L_days = Supplier Transit Lead Time<br>
+                    &bull; P_retail = Optimal Profit Price Point
+                </div>
+
+                <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:var(--radius-sm); padding:1rem; margin-top:1rem;">
+                    <div style="font-weight:700; color:var(--success); font-size:0.9rem; margin-bottom:0.25rem;">&#10004; Zero Missed Demand</div>
+                    <p style="font-size:0.85rem; color:var(--text-secondary); margin:0;">
+                        Proactive safety stock buffers ensure a 95% service level confidence interval throughout delivery lead times.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>OptiRetail AI &bull; Retail Store Optimization &bull; Revenue Assurance</p>
+    </footer>
+</body>
+</html>

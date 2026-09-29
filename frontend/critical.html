@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Critical Stockouts - OptiRetail AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .page-header-banner {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fecaca;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .back-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+        }
+        .back-nav:hover {
+            text-decoration: underline;
+        }
+        .urgent-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--danger);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo" style="text-decoration:none;">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">OptiRetail <span class="badge-ai">AI ENGINE</span></span>
+            </a>
+            <div class="store-badge">
+                <span class="dot-online"></span>
+                <span>Downtown Superstore #104</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="index.html" class="btn btn-secondary">← Back to Main Dashboard</a>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <a href="index.html" class="back-nav">← Back to Overview</a>
+
+        <div class="page-header-banner">
+            <div>
+                <h1 style="color:#991b1b; font-size:1.75rem; font-weight:800; display:flex; align-items:center; gap:0.5rem;">
+                    🚨 Critical Stockout Items (3 SKUs at Risk)
+                </h1>
+                <p style="color:#7f1d1d; margin-top:0.35rem; font-size:0.95rem;">
+                    These products have less days of supply remaining than their supplier delivery lead time. Immediate purchase orders (POs) are required to avoid stockouts.
+                </p>
+            </div>
+            <div>
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Print Emergency POs</button>
+            </div>
+        </div>
+
+        <div id="critical-items-container">
+            <div class="urgent-card">
+                <div>
+                    <span class="status-badge badge-critical" style="margin-bottom:0.5rem;">Critical Stockout</span>
+                    <h3 style="font-size:1.25rem; font-weight:700;">Organic Almond Milk 1L</h3>
+                    <p style="color:var(--text-muted); font-family:monospace; font-size:0.85rem;">SKU-101 &bull; Groceries</p>
+                    <div style="margin-top:0.75rem; font-size:0.9rem; color:var(--text-secondary);">
+                        <strong>Stock Left:</strong> 18 units &bull; <strong>Lead Time:</strong> 3 days &bull; <strong>Estimated Days Left:</strong> <span class="text-red" style="font-weight:700;">1.7 days</span>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:0.85rem; color:var(--text-secondary);">Recommended Order</div>
+                    <div style="font-size:1.75rem; font-weight:800; font-family:'JetBrains Mono'; color:var(--warning);">+142 units</div>
+                    <div style="font-size:0.9rem; color:var(--text-muted);">PO Cost: $312.40</div>
+                    <button class="btn btn-primary btn-sm" style="margin-top:0.5rem;" onclick="alert('Emergency PO #PO-101 approved for 142 units!')">Approve PO</button>
+                </div>
+            </div>
+
+            <div class="urgent-card">
+                <div>
+                    <span class="status-badge badge-critical" style="margin-bottom:0.5rem;">Critical Stockout</span>
+                    <h3 style="font-size:1.25rem; font-weight:700;">Artisan Sourdough Loaf</h3>
+                    <p style="color:var(--text-muted); font-family:monospace; font-size:0.85rem;">SKU-102 &bull; Bakery</p>
+                    <div style="margin-top:0.75rem; font-size:0.9rem; color:var(--text-secondary);">
+                        <strong>Stock Left:</strong> 12 units &bull; <strong>Lead Time:</strong> 2 days &bull; <strong>Estimated Days Left:</strong> <span class="text-red" style="font-weight:700;">0.9 days</span>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:0.85rem; color:var(--text-secondary);">Recommended Order</div>
+                    <div style="font-size:1.75rem; font-weight:800; font-family:'JetBrains Mono'; color:var(--warning);">+178 units</div>
+                    <div style="font-size:0.9rem; color:var(--text-muted);">PO Cost: $373.80</div>
+                    <button class="btn btn-primary btn-sm" style="margin-top:0.5rem;" onclick="alert('Emergency PO #PO-102 approved for 178 units!')">Approve PO</button>
+                </div>
+            </div>
+
+            <div class="urgent-card">
+                <div>
+                    <span class="status-badge badge-critical" style="margin-bottom:0.5rem;">Critical Stockout</span>
+                    <h3 style="font-size:1.25rem; font-weight:700;">Wireless Ergonomic Mouse</h3>
+                    <p style="color:var(--text-muted); font-family:monospace; font-size:0.85rem;">SKU-105 &bull; Electronics</p>
+                    <div style="margin-top:0.75rem; font-size:0.9rem; color:var(--text-secondary);">
+                        <strong>Stock Left:</strong> 14 units &bull; <strong>Lead Time:</strong> 10 days &bull; <strong>Estimated Days Left:</strong> <span class="text-red" style="font-weight:700;">3.8 days</span>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:0.85rem; color:var(--text-secondary);">Recommended Order</div>
+                    <div style="font-size:1.75rem; font-weight:800; font-family:'JetBrains Mono'; color:var(--warning);">+70 units</div>
+                    <div style="font-size:0.9rem; color:var(--text-muted);">PO Cost: $1,120.00</div>
+                    <button class="btn btn-primary btn-sm" style="margin-top:0.5rem;" onclick="alert('Emergency PO #PO-105 approved for 70 units!')">Approve PO</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>OptiRetail AI &bull; Retail Store Optimization &bull; Critical Stockout Operations</p>
+    </footer>
+</body>
+</html>
