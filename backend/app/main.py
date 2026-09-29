@@ -1,4 +1,4 @@
-﻿import os
+import os
 import joblib
 import numpy as np
 from typing import List, Optional
