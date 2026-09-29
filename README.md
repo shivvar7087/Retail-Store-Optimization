@@ -150,6 +150,8 @@ This repository includes [`render.yaml`](render.yaml) for Render Blueprint deplo
 3. Render will install `requirements.txt` and start FastAPI with the assigned `$PORT`.
 4. Open the generated Render URL. The frontend uses same-origin API requests in production.
 
+For an existing Render service that keeps `backend` as its Root Directory, use `requirements.txt` as the build file and `uvicorn app.main:app --host 0.0.0.0 --port $PORT` as the start command. The backend requirements file forwards dependency installation to the repository root.
+
 The local `.env` file is ignored by Git. Configure any deployment-specific values in Render's Environment settings rather than committing secrets.
 
 ---
