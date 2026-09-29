@@ -93,6 +93,7 @@ Retail Store Optimization/
 │   │   └── main.py               # FastAPI application, ML engine, endpoints, static file server
 │   ├── train_model.py            # Random Forest model training pipeline script
 │   ├── retail_training_data.csv  # 2,500 historical transaction rows used to train ML model
+│   ├── requirements.txt           # Dependency bridge for backend-rooted deployments
 │   └── demand_model.joblib       # Persisted trained Random Forest model
 │
 ├── models/
@@ -143,14 +144,29 @@ uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
 - **Alternative Offline Access**: Open `frontend/index.html` directly in any web browser.
 
 ### 5. Deploy to Render
-This repository includes [`render.yaml`](render.yaml) for Render Blueprint deployment.
+The repository includes [`render.yaml`](render.yaml) for Render Blueprint deployment. The recommended setup uses the repository root as the service root:
+
+```text
+Root Directory: .
+Build Command:  pip install -r requirements.txt
+Start Command: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+Health Check:  /api/store-kpis
+```
 
 1. Create a new **Blueprint** in Render and select this repository.
-2. Set the service **Root Directory** to `.` (the repository root), not `backend`.
-3. Render will install `requirements.txt` and start FastAPI with the assigned `$PORT`.
-4. Open the generated Render URL. The frontend uses same-origin API requests in production.
+2. Confirm the service **Root Directory** is `.` (the repository root), not `backend`.
+3. Deploy and open the generated Render URL. The frontend uses same-origin API requests in production.
 
-For an existing Render service that keeps `backend` as its Root Directory, use `requirements.txt` as the build file and `uvicorn app.main:app --host 0.0.0.0 --port $PORT` as the start command. The backend requirements file forwards dependency installation to the repository root.
+For an existing Render service that keeps `backend` as its Root Directory, use these settings instead:
+
+```text
+Root Directory: backend
+Build Command:  pip install -r requirements.txt
+Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+Health Check:  /api/store-kpis
+```
+
+`backend/requirements.txt` forwards dependency installation to the root dependency file, so Render can resolve packages in either layout.
 
 The local `.env` file is ignored by Git. Configure any deployment-specific values in Render's Environment settings rather than committing secrets.
 
