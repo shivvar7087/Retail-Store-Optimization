@@ -144,25 +144,25 @@ uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
 - **Alternative Offline Access**: Open `frontend/index.html` directly in any web browser.
 
 ### 5. Deploy to Render
-The repository includes [`render.yaml`](render.yaml) for Render Blueprint deployment. The recommended setup uses the repository root as the service root:
-
-```text
-Root Directory: .
-Build Command:  pip install -r requirements.txt
-Start Command: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
-Health Check:  /api/store-kpis
-```
-
-1. Create a new **Blueprint** in Render and select this repository.
-2. Confirm the service **Root Directory** is `.` (the repository root), not `backend`.
-3. Deploy and open the generated Render URL. The frontend uses same-origin API requests in production.
-
-For an existing Render service that keeps `backend` as its Root Directory, use these settings instead:
+The repository includes [`render.yaml`](render.yaml) for Render Blueprint deployment. The recommended setup uses `backend` as the service root:
 
 ```text
 Root Directory: backend
 Build Command:  pip install -r requirements.txt
 Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+Health Check:  /api/store-kpis
+```
+
+1. Create a new **Blueprint** in Render and select this repository.
+2. Confirm the service **Root Directory** is `backend`.
+3. Deploy and open the generated Render URL. The frontend uses same-origin API requests in production.
+
+For an existing Render service configured with the repository root as its Root Directory, use these settings instead:
+
+```text
+Root Directory: .
+Build Command:  pip install -r requirements.txt
+Start Command: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
 Health Check:  /api/store-kpis
 ```
 
